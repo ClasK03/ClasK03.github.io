@@ -56,17 +56,21 @@ function unBooked(todaysEvents, startHour, endHour){
     const start = now.setHours(startHour,0,0,0)
     const end = now.setHours(endHour,15,0,0)
 
+    //console.log(todaysEvents)
+
     for (var vevent of todaysEvents) {
         const event = new ICAL.Event(vevent);
         const eventStartDate = event.startDate.toJSDate();
         const eventEndDate = event.endDate.toJSDate();
+        //console.log(vevent)
+        //console.log(event.summary)
         //console.log(eventStartDate)
+        //console.log(eventEndDate)
         if ( ( eventStartDate > start && eventStartDate < end ) || ( eventEndDate > start && eventEndDate < end ) ) {
             return false
-        }else {
-            return true
         }
     }
+    return true
 }
 
 
@@ -80,23 +84,104 @@ async function main() {
 
     const now = new Date();
     const HourNow = now.getHours();
+    //const HourNow = 4;
     const HourNowplus2 = HourNow + 2;
+    const MinuteNow = now.getMinutes();
+    const date = now.getDate();
+    const weekday = now.getDay();
+    const month = now.getMonth();
+
+    var dayname = "vet ej";
+    var monthname = "vet ej";
+
+    const timeNowString = String(HourNow).padStart(2, '0') + ":" + String(MinuteNow).padStart(2, '0');
+
+    if (HourNow >= 22) {
+        console.log("Läggdags!")
+        document.body.innerHTML = "<h1>Klockan är " + timeNowString + ", gå och lägg dig!<h1>";
+        return
+    }
+
+    document.getElementById("tid").innerHTML = "kl " + timeNowString;
+
+    if (weekday==1){
+        dayname = "måndag";
+    }
+    if (weekday==2){
+        dayname = "tisdag";
+    }
+    if (weekday==3){
+        dayname = "onsdag";
+    }
+    if (weekday==4){
+        dayname = "torsdag";
+    }
+    if (weekday==5){
+        dayname = "fredag";
+    }
+    if (weekday==6){
+        dayname = "lördag";
+    }
+    if (weekday==7){
+        dayname = "söndag";
+    }
+
+    if (month==1){
+        monthname = "januari";
+    }
+    if (month==2){
+        monthname = "februari";
+    }
+    if (month==3){
+        monthname = "mars";
+    }
+    if (month==4){
+        monthname = "april";
+    }
+    if (month==5){
+        monthname = "maj";
+    }
+    if (month==6){
+        monthname = "juni";
+    }
+    if (month==7){
+        monthname = "juli";
+    }
+    if (month==8){
+        monthname = "augusti";
+    }
+    if (month==9){
+        monthname = "september";
+    }
+    if (month==10){
+        monthname = "oktober";
+    }
+    if (month==11){
+        monthname = "november";
+    }
+    if (month==12){
+        monthname = "december";
+    }
+
+
+    document.getElementById("rub").innerHTML = "Obokade datorsalar i A-huset idag, " + dayname + " den " + date + " " + monthname + ":";
 
     if (HourNow > 17) {
         document.getElementById("nu-17-rub").innerHTML = "";
         document.getElementById("nu-12-rub").innerHTML = "";
     } else {
 
-        document.getElementById("nu-17-rub").innerHTML = "Obokade datasalar mellan "+ HourNow +":00 och 17:00:";
-        document.getElementById("nu-12-rub").innerHTML = "Obokade datasalar mellan "+ HourNow +":00 och 12:00:";
+        document.getElementById("nu-17-rub").innerHTML = String(HourNow).padStart(2, '0') +":00 - 17:00:";
+        document.getElementById("nu-12-rub").innerHTML = String(HourNow).padStart(2, '0') +":00 - 12:00:";
     }
-    document.getElementById("nu-plus-2-rub").innerHTML = "Obokade datasalar mellan "+ HourNow +":00 och " + HourNowplus2 + ":00:";
+    document.getElementById("nu-plus-2-rub").innerHTML = String(HourNow).padStart(2, '0') +":00 - " + String(HourNowplus2).padStart(2, '0') + ":00:";
 
     for (var sal of salar) {
         //console.log(sal.name)
         var jcalData = await getData(sal.url)
         var todaysEvents = getTodaysEvents(jcalData)
-        if (todaysEvents.length == 0) {
+        //console.log(sal)
+        if (todaysEvents.length == 0) { // Om inga event på hela dagen alltså obokad lägg till i listor
             unbooked_nu_17.push(sal.name)
             unbooked_nu_12.push(sal.name)
             unbooked_nu_plus_2.push(sal.name)
@@ -117,9 +202,23 @@ async function main() {
         document.getElementById("nu-17").innerHTML = "";
         document.getElementById("nu-12").innerHTML = "";
     }else {
-        document.getElementById("nu-17").innerHTML = unbooked_nu_17;
-        document.getElementById("nu-12").innerHTML = unbooked_nu_12;
+        document.getElementById("nu-17").innerHTML = "";
+        for (sal of unbooked_nu_17) {
+            document.getElementById("nu-17").innerHTML = document.getElementById("nu-17").innerHTML + sal + "<br>";
+        }
+        if (HourNow < 12) {
+        document.getElementById("nu-12").innerHTML = "";
+            for (sal of unbooked_nu_12) {
+                document.getElementById("nu-12").innerHTML = document.getElementById("nu-12").innerHTML + sal + "<br>";
+            }
+        }else {
+            document.getElementById("nu-12-rub").innerHTML = "";
+            document.getElementById("nu-12").innerHTML = "";
+        }
     }
 
-    document.getElementById("nu-plus-2").innerHTML = unbooked_nu_plus_2;
+    document.getElementById("nu-plus-2").innerHTML = "";
+    for (sal of unbooked_nu_plus_2) {
+        document.getElementById("nu-plus-2").innerHTML = document.getElementById("nu-plus-2").innerHTML + sal + "<br>";
+    }
 }
