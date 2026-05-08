@@ -96,6 +96,7 @@ async function main() {
 
     const timeNowString = String(HourNow).padStart(2, '0') + ":" + String(MinuteNow).padStart(2, '0');
 
+    console.log(HourNow)
     if (HourNow >= 22) {
         console.log("Läggdags!")
         document.body.innerHTML = "<h1>Klockan är " + timeNowString + ", gå och lägg dig!<h1>";
