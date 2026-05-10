@@ -105,6 +105,8 @@ async function main() {
 
     document.getElementById("tid").innerHTML = "kl " + timeNowString;
 
+    //console.log(weekday)
+
     if (weekday==1){
         dayname = "måndag";
     }
@@ -123,44 +125,44 @@ async function main() {
     if (weekday==6){
         dayname = "lördag";
     }
-    if (weekday==7){
+    if (weekday==0){
         dayname = "söndag";
     }
 
-    if (month==1){
+    if (month==0){
         monthname = "januari";
     }
-    if (month==2){
+    if (month==1){
         monthname = "februari";
     }
-    if (month==3){
+    if (month==2){
         monthname = "mars";
     }
-    if (month==4){
+    if (month==3){
         monthname = "april";
     }
-    if (month==5){
+    if (month==4){
         monthname = "maj";
     }
-    if (month==6){
+    if (month==5){
         monthname = "juni";
     }
-    if (month==7){
+    if (month==6){
         monthname = "juli";
     }
-    if (month==8){
+    if (month==7){
         monthname = "augusti";
     }
-    if (month==9){
+    if (month==8){
         monthname = "september";
     }
-    if (month==10){
+    if (month==9){
         monthname = "oktober";
     }
-    if (month==11){
+    if (month==10){
         monthname = "november";
     }
-    if (month==12){
+    if (month==11){
         monthname = "december";
     }
 
