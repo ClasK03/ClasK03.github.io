@@ -66,7 +66,7 @@ function unBooked(todaysEvents, startHour, endHour){
         //console.log(event.summary)
         //console.log(eventStartDate)
         //console.log(eventEndDate)
-        if ( ( eventStartDate > start && eventStartDate < end ) || ( eventEndDate > start && eventEndDate < end ) ) {
+        if ( ( eventStartDate >= start && eventStartDate < end ) || ( eventEndDate > start && eventEndDate < end ) || (eventStartDate <= start && eventEndDate >= end)) {
             return false
         }
     }
@@ -84,7 +84,7 @@ async function main() {
 
     const now = new Date();
     const HourNow = now.getHours();
-    //const HourNow = 4;
+    //const HourNow = 8;
     const HourNowplus2 = HourNow + 2;
     const MinuteNow = now.getMinutes();
     const date = now.getDate();
@@ -103,7 +103,7 @@ async function main() {
         return
     }
 
-    document.getElementById("tid").innerHTML = "kl " + timeNowString;
+    document.getElementById("tid").innerHTML = "Uppdaterat kl " + timeNowString;
 
     //console.log(weekday)
 
