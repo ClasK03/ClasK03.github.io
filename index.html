@@ -9,6 +9,7 @@
 <body>
     <noscript>Please enable Javascript to view this page!</noscript>
     <a href="about.html">Om</a>
+    <p>OBS: kan visa fel, koden är inte helt dubbelkollad</p>
     <h2 id="rub">Obokade datasalar idag:</h2>
     <hr>
     <h3 id="nu-17-rub">8:15 - 17:00:</h3>
@@ -21,6 +22,43 @@
     <p id="nu-plus-2">Laddar...</p>
     <hr>
     <p>Surtsey och Island alltid är obokade.</p>
+
+<hr>
+
+<h3>Manuell Sökning:</h3>
+    <label for="start-date">Datum:</label>
+    <input
+    type="date"
+    id="start-date"
+    name="search-start-date"
+    value="2026-05-18"
+    min="2026-01-01"
+    max="2050-12-31"/>
+
+    <label for="start-time">Från:</label>
+    <input
+    type="time"
+    id="start-time"
+    name="search-start-time"
+    min="05:00"
+    max="22:00"
+    required/>
+
+    <label for="end-time">Till:</label>
+    <input
+    type="time"
+    id="end-time"
+    name="search-end-time"
+    min="05:00"
+    max="22:00"
+    required/>
+
+    <input id="search-button" type="button" value="Sök!" />
+
+    <h4 id="manual-search-rub"></h4>
+    <p id="manual-search-halls"></p>
+
+    <hr>
     <p id="tid"></p>
 </body>
 </html>

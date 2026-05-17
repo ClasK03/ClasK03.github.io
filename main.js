@@ -50,11 +50,42 @@ function getTodaysEvents(jcalData) {
     return todaysEvents
 }
 
-function unBooked(todaysEvents, startHour, endHour){
-    var now = new Date();
-    
-    const start = now.setHours(startHour,0,0,0)
-    const end = now.setHours(endHour,15,0,0)
+function getThisDaysEvents(jcalData, day) {
+    const comp = new ICAL.Component(jcalData);
+    const vevents = comp.getAllSubcomponents("vevent");
+
+    const thisday = new Date(day);
+    thisday.setHours(0, 0, 0, 0);
+
+    //console.log(thisday)
+
+    const thisDaysEvents = vevents.filter(vevent => {
+        const event = new ICAL.Event(vevent);
+        const eventDate = event.startDate.toJSDate();
+        
+        // Reset time to midnight to compare just the calendar day
+        eventDate.setHours(0, 0, 0, 0);
+        //console.log("Event date: " + eventDate)
+        //console.log("This day:   " + thisday)
+
+        // if (eventDate.getTime() === thisday.getTime()) {
+        //     console.log("Samma dag!!!!!")
+        // }
+
+        return eventDate.getTime() === thisday.getTime();
+    });
+    return thisDaysEvents
+}
+
+function unBooked(todaysEvents, startHour, startMinute, endHour, endMinute, day){
+    if (typeof day !== 'undefined') {
+        var now = new Date(day);
+    } else {
+        var now = new Date();
+    }
+
+    const start = new Date(now.setHours(startHour,startMinute,0,0))
+    const end = new Date(now.setHours(endHour,endMinute,0,0))
 
     //console.log(todaysEvents)
 
@@ -63,20 +94,78 @@ function unBooked(todaysEvents, startHour, endHour){
         const eventStartDate = event.startDate.toJSDate();
         const eventEndDate = event.endDate.toJSDate();
         //console.log(vevent)
-        //console.log(event.summary)
-        //console.log(eventStartDate)
-        //console.log(eventEndDate)
+        console.log(event.summary)
+        console.log(eventStartDate)
+        console.log(eventEndDate)
+        console.log(start)
+        console.log(end)
         if ( ( eventStartDate >= start && eventStartDate < end ) || ( eventEndDate > start && eventEndDate < end ) || (eventStartDate <= start && eventEndDate >= end)) {
+            console.log("Bokad!")
             return false
         }
     }
     return true
 }
 
+async function manualSearch() {
+    console.log("Doing manual search!")
+    const salar = await fetchJSONData();
+    const searchDate = document.getElementById("start-date");
+    const startTime = document.getElementById("start-time");
+    const endTime = document.getElementById("end-time");
+
+    const searchStartTime = startTime.value;
+    const searchEndTime = endTime.value;
+
+    const searchStartHour = searchStartTime.split(":")[0];
+    const searchStartMinute = searchStartTime.split(":")[1];
+
+    const searchEndHour = searchEndTime.split(":")[0];
+    const searchEndMinute = searchEndTime.split(":")[1];
+
+    const searchDateString = searchDate.value;
+
+    console.log("Search start time: " + searchStartTime)
+    console.log("Search end time: " + searchEndTime)
+
+    const unbooked_manual = [];
+
+    for (var sal of salar) {
+        //console.log(sal.name)
+        var jcalData = await getData(sal.url)
+        //console.log(searchDateString)
+        var thisDaysEvents = getThisDaysEvents(jcalData,searchDateString)
+        console.log(sal)
+        console.log(thisDaysEvents)
+        if (thisDaysEvents.length == 0) { // Om inga event på hela dagen alltså obokad lägg till i listor
+            unbooked_manual.push(sal.name)
+            console.log("Inga event i " + sal.name)
+        } else {
+            if (unBooked(thisDaysEvents,searchStartHour,searchStartMinute,searchEndHour,searchEndMinute,searchDateString)) {
+                unbooked_manual.push(sal.name)
+                console.log(sal.name + " är obokad")
+            }
+        }
+    }
+
+    document.getElementById("manual-search-rub").innerHTML = "Obokade datorsalar " + searchDateString + ", kl: " + searchStartTime + " till " + searchEndTime + ":";
+    document.getElementById("manual-search-halls").innerHTML = "";
+    if (unbooked_manual.length == 0) {
+        document.getElementById("manual-search-halls").innerHTML = "Inga obokade salar hittades denna tid... :("
+    } else {
+        for (sal of unbooked_manual) {
+            document.getElementById("manual-search-halls").innerHTML = document.getElementById("manual-search-halls").innerHTML + sal + "<br>";
+        }
+    }
+}
 
 async function main() {
-    const url = "https://cloud.timeedit.net/liu/web/schema/ri687QQQY90Zn1Q5108049Z6y6Z55.ics";
     const salar = await fetchJSONData();
+    const button = document.getElementById("search-button");
+    const searchDate = document.getElementById("start-date");
+    const startTime = document.getElementById("start-time");
+    const endTime = document.getElementById("end-time");
+    button.addEventListener("click", manualSearch);
 
     var unbooked_nu_17 = [];
     var unbooked_nu_12 = [];
@@ -91,10 +180,17 @@ async function main() {
     const weekday = now.getDay();
     const month = now.getMonth();
 
+    const timeNowString = String(HourNow).padStart(2, '0') + ":" + String(MinuteNow).padStart(2, '0');
+    const timeplus1String = String(HourNow+1).padStart(2, '0') + ":" + String(MinuteNow).padStart(2, '0');
+
+    const nowNumber = now.getTime();
+    searchDate.valueAsNumber = nowNumber;
+    console.log(timeNowString)
+    startTime.value = timeNowString;
+    endTime.value = timeplus1String;
+
     var dayname = "vet ej";
     var monthname = "vet ej";
-
-    const timeNowString = String(HourNow).padStart(2, '0') + ":" + String(MinuteNow).padStart(2, '0');
 
     console.log(HourNow)
     if (HourNow >= 22) {
@@ -189,13 +285,13 @@ async function main() {
             unbooked_nu_12.push(sal.name)
             unbooked_nu_plus_2.push(sal.name)
         } else {
-            if (unBooked(todaysEvents,HourNow,17)) {
+            if (unBooked(todaysEvents,HourNow,0,17,15)) {
                 unbooked_nu_17.push(sal.name)
             }
-            if (unBooked(todaysEvents,HourNow,12)) {
+            if (unBooked(todaysEvents,HourNow,0,12,15)) {
                 unbooked_nu_12.push(sal.name)
             }
-            if (unBooked(todaysEvents,HourNow,HourNowplus2)) {
+            if (unBooked(todaysEvents,HourNow,0,HourNowplus2,15)) {
                 unbooked_nu_plus_2.push(sal.name)
             }
         }
