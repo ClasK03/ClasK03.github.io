@@ -148,7 +148,7 @@ async function manualSearch() {
         }
     }
 
-    document.getElementById("manual-search-rub").innerHTML = "Obokade datorsalar " + searchDateString + ", kl: " + searchStartTime + " till " + searchEndTime + ":";
+    document.getElementById("manual-search-rub").innerHTML = "Obokade datorsalar " + searchDateString + ",<br>kl: " + searchStartTime + " till " + searchEndTime + ":";
     document.getElementById("manual-search-halls").innerHTML = "";
     if (unbooked_manual.length == 0) {
         document.getElementById("manual-search-halls").innerHTML = "Inga obokade salar hittades denna tid... :("
