@@ -1,42 +1,52 @@
 [
     {
         "name": "Bifrost",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri687QQQY10Zn1Q5108949Z6y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri687QQQY10Zn1Q5108949Z6y6Z05.ics",
+        "karta": "https://link.mazemap.com/7jhgL6rt"
     },
     {
         "name": "Glase",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5918949Z1y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5918949Z1y6Z05.ics",
+        "karta": "https://link.mazemap.com/kSh59SoQ"
     },
     {
         "name": "Valhall",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri627QQQY15Zn1Q5348949Z6y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri627QQQY15Zn1Q5348949Z6y6Z05.ics",
+        "karta": "https://link.mazemap.com/l7qjwiQA"
     },
     {
         "name": "Alfheim",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri687QQQY10Zn1Q5058949Z6y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri687QQQY10Zn1Q5058949Z6y6Z05.ics",
+        "karta": "https://link.mazemap.com/gyeBuWgD"
     },
     {
         "name": "Gimle",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5978949Z1y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5978949Z1y6Z05.ics",
+        "karta": "https://link.mazemap.com/PqPbk2VA"
     },
     {
         "name": "Glitner",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5998949Z1y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5998949Z1y6Z05.ics",
+        "karta": "https://link.mazemap.com/fpjqhvYJ"
     },
     {
         "name": "Elivagor",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5988949Z1y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn1Q5988949Z1y6Z05.ics",
+        "karta": "https://link.mazemap.com/nmtOFpgp"
     },
     {
         "name": "Nobelsalen",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri687QQQY18Zn1Q5578949Z6y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri687QQQY18Zn1Q5578949Z6y6Z05.ics",
+        "karta": "https://link.mazemap.com/BBi8yEBD"
     },
     {
         "name": "Jotunheim",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn4Q5378949Z4y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn4Q5378949Z4y6Z05.ics",
+        "karta": "https://link.mazemap.com/FzbrFXYF"
     },
     {
         "name": "Vanheim",
-        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn4Q5388949Z4y6Z05.ics"
+        "url": "https://cloud.timeedit.net/liu/web/schema/ri607QQQY12Zn4Q5388949Z4y6Z05.ics",
+        "karta": "https://link.mazemap.com/jXJRpTWE"
     }
 ]
